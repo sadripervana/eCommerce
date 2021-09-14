@@ -2,7 +2,7 @@
 	</div>
 
 	<footer class="text-center" id="footer">
-		&copy;Copyright 2013-2015 Shaunta's Boutique
+		&copy;Copyright 2013-2015 SuperMario Toys
 	</footer>
 
 
@@ -24,6 +24,24 @@
 				"transform" : "translate(0px, -"+vscroll/2+"px)"
 			})
 		});
+
+
+		function detailsmodal(id){
+	  	var data = {"id" : id};
+	  	jQuery.ajax({
+	  		url 	: 	'/PHPeCommerce1/includes/detailsmodal.php',
+	  		method 	: 	"post",
+	  		data 	: 	data,
+	  		success : 	function(data){
+	  			jQuery('body').append(data);
+	  			jQuery('#details-modal').modal('toggle');
+	  		},
+	  		error  	: 	function(){
+	  			alert("Something went wrong!");
+	  		}
+	  	});
+	  }
+
 	</script>
 </body>
 </html>

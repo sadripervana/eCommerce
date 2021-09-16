@@ -8,6 +8,8 @@ $pquery = $db->query($sql);
 	<div class="container">
 		<a href="index.php" class="navbar-brand">SuperMario Toys</a>
 		<ul class="nav navbar-nav">
+			<li><a href="/PHPProjects/PHPeCommerce1/admin/brands.php">Admin</a></li>
+
 			<?php while($parent = mysqli_fetch_assoc($pquery)) : ?>
 				<?php 
 				$parent_id = $parent['id'];

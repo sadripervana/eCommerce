@@ -69,3 +69,8 @@ img.details{
 .quantity {
 	padding: 0;
 }
+
+table.table-auto {
+	width: auto;
+	margin: 0 auto;
+}

@@ -29,7 +29,7 @@
 		function detailsmodal(id){
 	  	var data = {"id" : id};
 	  	jQuery.ajax({
-	  		url 	: 	'/PHPeCommerce1/includes/detailsmodal.php',
+	  		url 	: 	'/PHPProjects/PHPeCommerce1/includes/detailsmodal.php',
 	  		method 	: 	"post",
 	  		data 	: 	data,
 	  		success : 	function(data){

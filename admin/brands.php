@@ -39,7 +39,6 @@
 			$sql = "SELECT * FROM brand WHERE brand = '$brand' AND id !='$id'";
 		}
 	  $result = $db->query($sql);
-
 	  $count = mysqli_num_rows($result);
 	  if($count > 0){
 	  	$errors[] .= $brand . ' That brand already exists. Please choose another brand.';
@@ -57,14 +56,13 @@
 		$db->query($sql);
 		header('Location: brands.php');
 		}
-
 	}
 
 ?>
 <h2 class="text-center"> Brands </h2><hr>
 <!-- Brand Form -->
 <div class="text-center">
-	<form action="brands.php<?=((isset($_GET['edit']))?'?edit='.$edit_id:'')?>" method="post" class="form-inline">
+	<form action="brands.php<?=((isset($_GET['edit']))?'?edit='.$edit_id:'');?>" method="post" class="form-inline">
 		<div class="form-group">
 			<?php 
 			$brand_value = '';
@@ -78,7 +76,7 @@
 			}
 			
 			?>
-			<label for="brand"><?=((isset($_GET['edit']))?'Edit':'Add A')?> Brand:</label>
+			<label for="brand"><?=((isset($_GET['edit']))?'Edit':'Add A');?> Brand:</label>
 			<input type="text" name="brand" id="brand" class="form-control" value="<?=$brand_value?>">
 			<?php if(isset($_GET['edit'])): ?>
 				<a href="brands.php" class="btn btn-default">Cancel</a>

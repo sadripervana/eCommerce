@@ -22,7 +22,6 @@ $featured = $db-> query($sql);
 		</h2>
 		<?php while($product = mysqli_fetch_assoc($featured)) : ?>
 			<div class="col-md-3"> 
-				 <?php //var_dump($product);die; ?>
 				<h4><?= $product['title']; ?></h4>
 				<img src="<?=$product['images'];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 				<p class="list-price text-danger">

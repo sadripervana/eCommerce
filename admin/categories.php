@@ -1,11 +1,14 @@
 <?php 
 	require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
+	if(!is_loged_in()){
+		login_error_redirect();
+	}
 	include 'includes/head.php';
 	include 'includes/navigation.php';
 
 	$sql = "SELECT * FROM categories WHERE parent = 0";
 	$result = $db->query($sql);
-	$errors = array();
+	$errors = [];
 	$category = '';
 	$post_parent = '';
 

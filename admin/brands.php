@@ -5,7 +5,7 @@
 	//get brands from database
 	$sql = "SELECT * FROM brand ORDER BY brand";
 	$result = $db->query($sql);
-	$errors = array();
+	$errors = [];
 
 	//Edit brand
 	if(isset($_GET['edit']) && !empty($_GET['edit'])){

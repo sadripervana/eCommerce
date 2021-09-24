@@ -52,7 +52,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$sizes = rtrim($sizes, ',');
 		$saved_image = (($product['images'] != '')?$product['images']:'');
 		$dbpath = $saved_image;
-		// var_dump($saved_image);die;
 	}
 
 	if(!empty($sizes)){

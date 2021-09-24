@@ -70,7 +70,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		}
 
 	if($_POST){
-		$dbpath = '';
 		$errors = [];
 		$require = ['title', 'brand', 'price', 'parent', 'child', 'sizes'];
 		foreach ($require as $field) {

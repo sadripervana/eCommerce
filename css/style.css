@@ -52,6 +52,56 @@ body {
 	right: -25px;
 }
 
+/*partial */
+#partial-fore-flower{
+	position: absolute;
+	width: 100%;
+	height: 400px;
+	background-image: url('../images/headerlogo/flower.png');
+	background-size: auto 400px;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	top: 70px;
+	right: -60px;
+}
+
+#partial-back-flower{
+	position: absolute;
+	width: 100%;
+	height: 350px;
+	background-image: url('../images/headerlogo/flower2.png');
+	background-size: auto 350px;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	top: 150px;
+	right: -25px;
+}
+
+#partial-headerWrapper {
+	position: relative;
+	padding:  0;
+	margin: 0;
+	overflow: hidden;
+	height: 210px;
+	background-image: url('../images/headerlogo/background.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-attachment: fixed;
+}
+
+#partial-logotext {
+	position: absolute;
+	width: 100%;
+	height: 180px;
+	background-image: url('../images/headerlogo/text.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 70% 180px;
+	top: 50%;
+	margin-top: -90px;
+}
+
 .img-thumb{
 	width: auto;
 	height: 200px;
@@ -62,7 +112,7 @@ body {
 }
 
 img.details{
-	width: 33%;
+	width: 90%;
 	margin: 15px auto;
 }
 

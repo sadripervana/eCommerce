@@ -3,16 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-	require_once 'core/init.php';
-	include 'includes/head.php';
-	include 'includes/navigation.php';
-	include 'includes/headerfull.php';
-	include 'includes/leftbar.php';
+require_once 'core/init.php';
+include 'includes/head.php';
+include 'includes/navigation.php';
+include 'includes/headerfull.php';
+include 'includes/leftbar.php';
 
-	$sql ="SELECT * FROM products WHERE featured = 1";
-	
+$sql ="SELECT * FROM products WHERE featured = 1";
+
 $featured = $db-> query($sql);
- ?>
+?>
 
 <!-- Main content -->
 <div class="col-md-8">
@@ -28,17 +28,17 @@ $featured = $db-> query($sql);
 					List Price <s>$<?= $product['list_price']; ?></s>
 				</p>
 				<p class="price">
-				Our Price: $<?= $product['price']; ?>
+					Our Price: $<?= $product['price']; ?>
 				</p>
 				<button type="button" class="btn btn-sm btn-success" onclick="detailsmodal(<?= $product['id'];?>)">
-				Details
+					Details
 				</button>
 			</div>
 		<?php endwhile; ?>
 	</div>				
 </div>
-
+<p></p>
 <?php 
-	include 'includes/rightbar.php';
-	include 'includes/footer.php';
+include 'includes/rightbar.php';
+include 'includes/footer.php';
 ?>

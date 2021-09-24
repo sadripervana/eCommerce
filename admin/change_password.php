@@ -17,50 +17,50 @@ $user_id = $user_data['id'];
 $errors = [];
 ?>
 <style>
-	body{
-		background-image: url(/PHPProjects/PHPeCommerce1/images/headerlogo/bg1.jpg);
-		background-size: 100vh 100vh;
-		background-attachment: fixed;
-	}
+body{
+	background-image: url(/PHPProjects/PHPeCommerce1/images/headerlogo/bg1.jpg);
+	background-size: 100vh 100vh;
+	background-attachment: fixed;
+}
 </style>
 <div id="login-form">
 	<div>
 		
 		<?php 
-			if($_POST){
+		if($_POST){
 				//Form validation
-				if(empty($_POST['old_password']) || empty($_POST['password']) || empty($_POST['confirm'])){
-					$errors[] = "You must fill out all fields.";
-				}
-				
+			if(empty($_POST['old_password']) || empty($_POST['password']) || empty($_POST['confirm'])){
+				$errors[] = "You must fill out all fields.";
+			}
+			
 				//password is more than 6 characters
-				if(strlen($password) < 6){
-					$errors[] = "Password must be at least 6 characters.";
-				}
-
-				//if new password matches confirm
-				if($password != $confirm){
-					$errors[] = 'The new password and confrim new password does not match!';
-				}
-
-
-				if(!password_verify($old_password, $hashed)){
-					$errors[] = "The old password does ont match our records.";	
-				}
-
-				//check for errors
-				if(!empty($errors)){
-					echo display_errors($errors);
-				} else {
-					//change password
-					$db->query("UPDATE users SET password = '$new_hashed' WHERE id ='$user_id'");
-					$_SESSION['success_flash'] = 'Your password has been updated!';
-					header('Location: index.php');
-				}
-
+			if(strlen($password) < 6){
+				$errors[] = "Password must be at least 6 characters.";
 			}
 
-		 ?>
+				//if new password matches confirm
+			if($password != $confirm){
+				$errors[] = 'The new password and confrim new password does not match!';
+			}
+
+
+			if(!password_verify($old_password, $hashed)){
+				$errors[] = "The old password does ont match our records.";	
+			}
+
+				//check for errors
+			if(!empty($errors)){
+				echo display_errors($errors);
+			} else {
+					//change password
+				$db->query("UPDATE users SET password = '$new_hashed' WHERE id ='$user_id'");
+				$_SESSION['success_flash'] = 'Your password has been updated!';
+				header('Location: index.php');
+			}
+
+		}
+
+		?>
 
 	</div>
 	<h2 class="text-center">

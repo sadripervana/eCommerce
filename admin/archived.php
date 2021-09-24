@@ -1,7 +1,7 @@
 <?php 
 require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
 if(!is_loged_in()){
-		login_error_redirect();
+	login_error_redirect();
 }
 include 'includes/head.php';
 include 'includes/navigation.php';
@@ -15,15 +15,9 @@ if(isset($_GET['delete'])){
 
 $sql = "SELECT * FROM products WHERE deleted = 1";
 $presults = $db->query($sql);
-// if(isset($_GET['featured'])){
-// 	$id = (int)$_GET['id'];
-// 	$featured = (int)$_GET['featured'];
-// 	$featuredsql = "UPDATE products SET featured = '$featured' WHERE id = '$id'";
-// 	$db->query($featuredsql);
-// 	header('Location: products.php');
- ?>
+?>
 
- <h2 class="text-center">Archived</h2>
+<h2 class="text-center">Archived</h2>
 
 <table class="table table-bordered table-condensed table-striped">
 	<thead>
@@ -56,7 +50,6 @@ $presults = $db->query($sql);
 				<td><?=$category; ?></td>
 				<td>0</td>
 			</tr>
-
 		<?php endwhile; ?>
 	</tbody>
 </table>

@@ -95,9 +95,9 @@ if(isset($_POST['add_submit'])){
 	<tbody>
 		<?php while($brand = mysqli_fetch_assoc($result)): ?>
 			<tr>
-				<td><a href="brands.php?edit=<?=$brand['id']; ?>" class="btn btn-s btn-default"><span class="glyphicon glyphicon-pencil"></span></a></td>
+				<td><a href="brands.php?edit=<?=$brand['id']; ?>" class="btn btn-s btn-default"><i class="far fa-edit"></i></a></td>
 				<td><?=$brand['brand'];?></td>
-				<td><a href="brands.php?delete=<?=$brand['id'];?>" class="btn btn-s btn-default">X</a></td>
+				<td><a href="brands.php?delete=<?=$brand['id'];?>" class="btn btn-s btn-default"><i class="fal fa-times"></i></a></td>
 			</tr>
 		<?php endwhile; ?>
 	</tbody>

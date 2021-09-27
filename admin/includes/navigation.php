@@ -21,7 +21,7 @@
 			</li>
 
 			<!-- <li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $parent['category']; ?>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php //echo $parent['category']; ?>
 				 <span class="caret"></span></a>
 				<ul class="dropdown-menu" role="menu">
 					

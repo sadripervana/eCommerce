@@ -143,3 +143,7 @@ table.table-auto {
 #add-users-btn {
 	margin-top: 25px;
 }
+
+.total-table-header th{
+	text-align: center;
+}

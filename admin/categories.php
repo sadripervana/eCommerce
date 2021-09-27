@@ -143,8 +143,8 @@ if(isset($_GET['edit'])){
 						<td><?=$parent['category'] ?></td>
 						<td>Parent</td>
 						<td>
-							<a href="categories.php?edit=<?=$parent['id'] ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>	
-							<a href="categories.php?delete=<?=$parent['id'] ?>" class="btn btn-default btn-xs">X</a>
+							<a href="categories.php?edit=<?=$parent['id'] ?>" class="btn btn-default btn-xs"><i class="far fa-edit"></i></a>	
+							<a href="categories.php?delete=<?=$parent['id'] ?>" class="btn btn-default btn-xs"><i class="fal fa-times"></i></a>
 						</td>
 					</tr>
 					<?php while($child = mysqli_fetch_assoc($cresult)): ?>
@@ -152,8 +152,8 @@ if(isset($_GET['edit'])){
 							<td><?=$child['category']; ?></td>
 							<td><?=$parent['category']; ?></td>
 							<td>
-								<a href="categories.php?edit=<?=$child['id'] ?>" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></a>	
-								<a href="categories.php?delete=<?=$child['id'] ?>" class="btn btn-default btn-xs">X</a>
+								<a href="categories.php?edit=<?=$child['id'] ?>" class="btn btn-default btn-xs"><i class="far fa-edit"></i></span></a>	
+								<a href="categories.php?delete=<?=$child['id'] ?>" class="btn btn-default btn-xs"><i class="fal fa-times"></i></a>
 							</td>
 						</tr>
 					<?php endwhile; ?>

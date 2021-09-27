@@ -264,8 +264,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				?>
 				<tr>
 					<td>
-						<a href="products.php?edit=<?=$product['id'];?>" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></a>
-						<a href="products.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default">X</a>
+						<a href="products.php?edit=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="far fa-edit"></i></a>
+						<a href="products.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="fal fa-times"></i></a>
 
 					</td>
 					<td>

@@ -129,8 +129,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				<tr>
 					<td>
 						<?php if($user['id'] != $user_data['id']): ?>
-							<a href="users.php?edit=<?=$user['id'];?>" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-pencil"></span></a>
-							<a href="users.php?delete=<?=$user['id'];?>" class="btn btn-default btn-xs">X</a>
+							<a href="users.php?edit=<?=$user['id'];?>" class="btn btn-xs btn-default"><i class="fas fa-user-edit"></i></a>
+							<a href="users.php?delete=<?=$user['id'];?>" class="btn btn-default btn-xs"><i class="fas fa-user-minus"></i></a>
 						<?php endif; ?>
 					</td>
 					<td><?=$user['full_name'];?></td>

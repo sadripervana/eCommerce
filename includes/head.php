@@ -12,6 +12,8 @@
 	<script src="js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<!-- 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+-->
+<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>

@@ -8,6 +8,8 @@ if(mysqli_connect_errno()){
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/helpers/helpers.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/vendor/autoload.php';
+
 
 $cart_id = '';
 if(isset($_COOKIE[CART_COOKIE])){

@@ -11,7 +11,7 @@ if ($cart_id != '') {
 	$sub_total = 0;
 	$item_count = 0;
 }
- ?>
+?>
 
 <div class="col-md-12">
 	<div class="row">
@@ -40,37 +40,37 @@ if ($cart_id != '') {
 						foreach ($sArray as $sizeString) {
 							$s = explode(':',$sizeString);
 							if($s[0] == $item['size']){
-							$available = $s[1];
+								$available = $s[1];
+							}
 						}
-					}
-					?>
-					<tr>
-						<td><?=$i;?></td>
-						<td><?=$product['title'];?></td>
-						<td><?=money($product['price']);?></td>
-						<td>
-							<button class="btn btn-xs btn-default" onclick="update_cart('removeone','<?=$product['id'];?>','<?=$item['size'];?>');"><i class="fas fa-minus-circle"></i></button>
-							<?=$item['quantity'];?>
-							<?php if($item['quantity'] < $available): ?>
-							<button class="btn btn-xs btn-default" onclick="update_cart('addone','<?=$product['id'];?>','<?=$item['size'];?>');"><i class="fas fa-plus-circle"></i></button>
-						<?php else: ?>
-							<span class="text-danger">Max</span>
-						<?php endif; ?>
+						?>
+						<tr>
+							<td><?=$i;?></td>
+							<td><?=$product['title'];?></td>
+							<td><?=money($product['price']);?></td>
+							<td>
+								<button class="btn btn-xs btn-default" onclick="update_cart('removeone','<?=$product['id'];?>','<?=$item['size'];?>');"><i class="fas fa-minus-circle"></i></button>
+								<?=$item['quantity'];?>
+								<?php if($item['quantity'] < $available): ?>
+									<button class="btn btn-xs btn-default" onclick="update_cart('addone','<?=$product['id'];?>','<?=$item['size'];?>');"><i class="fas fa-plus-circle"></i></button>
+								<?php else: ?>
+									<span class="text-danger">Max</span>
+								<?php endif; ?>
 							</td>
-						<td><?=$item['size'];?></td>
-						<td><?=money($item['quantity'] * $product['price']);?></td>
-					</tr>
+							<td><?=$item['size'];?></td>
+							<td><?=money($item['quantity'] * $product['price']);?></td>
+						</tr>
 
-				<?php 
-				$i++;
-				$item_count += $item['quantity'];
-				$sub_total += ($product['price'] * $item['quantity']);
-			}
-			$tax = TAXRATE * $sub_total;
-			$tax = number_format($tax,2);
-			$grand_total = $tax + $sub_total;
+						<?php 
+						$i++;
+						$item_count += $item['quantity'];
+						$sub_total += ($product['price'] * $item['quantity']);
+					}
+					$tax = TAXRATE * $sub_total;
+					$tax = number_format($tax,2);
+					$grand_total = $tax + $sub_total;
 
-			?>
+					?>
 				</tbody>
 			</table>
 			<table class="table table-bordered table-condensed text-right">
@@ -93,29 +93,151 @@ if ($cart_id != '') {
 
 			<!-- Check Out Button -->
 			<button type="button" class="btn btn-primary btn-lg pull-right" data-toggle="modal" data-target="#checkoutModal">
-			 <i class="fas fa-shopping-cart"></i> Check Out
+				<i class="fas fa-shopping-cart"></i> Check Out  <i class="fas fa-forward"></i>
 			</button>
 
 			<!-- Modal -->
 			<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel">
-			  <div class="modal-dialog" role="document">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="checkoutModalLabel">Modal title</h4>
-			      </div>
-			      <div class="modal-body">
-			        ...
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary">Save changes</button>
-			      </div>
-			    </div>
-			  </div>
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="checkoutModalLabel">Modal title</h4>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<form action="thankYou.php" method="post" id="payment-form">
+									<span class="bg-danger" id="payment-errors"></span>
+									<div id="step1">
+										<div class="form-group col-md-6">
+											<label for="full_name">Full Name:</label>
+											<input type="email" class="form-control" id="full_name" name="full_name">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="email">Email:</label>
+											<input type="text" class="form-control" id="email" name="email">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="street">Street Addres:</label>
+											<input type="text" class="form-control" id="street" name="street">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="stree2">Street Address 2:</label>
+											<input type="text" class="form-control" id="stree2" name="stree2">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="city">City:</label>
+											<input type="text" class="form-control" id="city" name="city">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="state">State:</label>
+											<input type="text" class="form-control" id="state" name="state">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="zip_code">Zip Code:</label>
+											<input type="text" class="form-control" id="zip_code" name="zip_code">
+										</div><div class="form-group col-md-6">
+											<label for="country">Country:</label>
+											<input type="text" class="form-control" id="country" name="country">
+										</div>
+									</div>
+									<div id="step2">
+										<div class="form-group col-md-3">
+											<label for="name">Name on Card:</label>
+											<input type="text" id="name" class="form-control">
+										</div>
+										<div class="form-group col-md-3">
+											<label for="number">Card Number:</label>
+											<input type="text" id="number" class="form-control">
+										</div>
+										<div class="form-group col-md-2">
+											<label for="cvc">CVC:</label>
+											<input type="text" id="cvc" class="form-control">
+										</div>
+										<div class="form-group col-md-2">
+											<label for="exp-month">ExpireMonth:</label>
+											<select id="exp-month" class="form-control">
+												<option value=""></option>
+												<?php
+												for($i = 1; $i <13; $i++): ?>
+													<option value="<?=$i;?>"><?=$i;?></option>
+												}
+											<?php endfor; ?>
+										</select>
+									</div>
+									<div class="form-group col-md-2">
+										<label for="exp-year">Expire Year:</label>
+										<select name="" id="exp-year" class="form-control">
+											<option value=""></option>
+											<?php $yr = date("Y"); ?>
+											<?php	for($i = 0; $i <11; $i++): ?>
+												<option value="<?=$yr + $i;?>"><?=$yr + $i;?></option>
+											}
+										<?php endfor; ?>
+									</select>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" onclick="check_address();" id="next_button">Next <i class="fas fa-forward"></i></button>
+						<button type="button" class="btn btn-primary" onclick="back_address();" id="back_button"><i class="fas fa-backward"></i> Back </button>
+						<!-- <input type="submit"id="checkout_button" value="Check out"> -->
+						<button type="submit" class="btn btn-primary"  id="checkout_button">Check Out </button>
+					</div>
+				</form>
 			</div>
-		<?php endif; ?>
+		</div>
 	</div>
+<?php endif; ?>
+</div>
 </div>
 
-<?php include 'includes/footer.php' ?>
+<script>
+	function back_address(){
+		$('#payment-errors').html("");
+		$('#step1').css("display","block");
+		$('#step2').css("display","none");
+		$('#next_button').css("display","inline-block");
+		$('#back_button').css("display","none");
+		$('#checkout_button').css("display","none");
+		$('#checkoutModalLabel').html("Shipping address");
+
+	}
+
+	function check_address(){
+		var data = {
+			'full_name' : $('#full_name').val(),
+			'email' : $('#email').val(),
+			'street' : $('#street').val(),
+			'street2' : $('#street2').val(),
+			'city' : $('#city').val(),
+			'state' : $('#state').val(),
+			'zip_code' : $('#zip_code').val(),
+			'country' : $('#country').val(),
+		};
+		$.ajax({
+			url : '/PHPProjects/PHPeCommerce1/admin/parsers/check_address.php',
+			method : 'post',
+			data : data,
+			success : function(data){
+				if(data != 'passed'){
+					jQuery('#payment-errors').html(data);
+				}
+				if(data.trim() == 'passed'){
+					$('#payment-errors').html("");
+					$('#step1').css("display","none");
+					$('#step2').css("display","block");
+					$('#next_button').css("display","none");
+					$('#back_button').css("display","inline-block");
+					$('#checkout_button').css("display","inline-block");
+					$('#checkoutModalLabel').html("Enter Your card Details");
+				}
+			},
+			error : function(){alert("Something went wrong!");},
+		})
+	}
+</script>
+<?php include 'includes/footer.php'; ?>

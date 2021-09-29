@@ -34,9 +34,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
-			$image_url = BASEURL . $product['images'];
+			$image_url = BASEURL . $product['image'];
 			unlink($image_url);
-			$db->query("UPDATE products SET images = '' WHERE id = '$edit_id'");
+			$db->query("UPDATE products SET image = '' WHERE id = '$edit_id'");
 			header('Location: products.php?edit='.$edit_id);
 		}
 		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
@@ -50,7 +50,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):$product['description']);
 		$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
 		$sizes = rtrim($sizes, ',');
-		$saved_image = (($product['images'] != '')?$product['images']:'');
+		$saved_image = (($product['image'] != '')?$product['image']:'');
 		$dbpath = $saved_image;
 	}
 
@@ -91,7 +91,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$fileSize = $photo['size'];
 			$allowed = ['png', 'jpg', 'jpeg', 'gif'];
 			$uploadName = md5(microtime()) . '.' . $fileExt;
-			$uploadPath = BASEURL.'images/products/' . $uploadName;
+			$uploadPath = BASEURL.'image/products/' . $uploadName;
 			$dbpath = 'images/products/' . $uploadName;
 			if($mimeType != 'image'){
 				$errors[] = 'The File must be an image.';
@@ -115,7 +115,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				move_uploaded_file($tmpLoc, $uploadPath);
 			}
 			
-			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `images`, `description`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
+			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
 			if(isset($_GET['edit'])){
 				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', images = '$dbpath', description = '$description' WHERE id = '$edit_id'";
 			}
@@ -175,7 +175,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			<div class="saved-image">
 				<img src="<?='../'.$saved_image;?>" alt="saved-image" class="img-thumb"/>
 			</div>
-			<a href="products.php?delete_image=1&edit=<?=$edit_id;?>" class="text-danger">Delete Images</a>
+			<a href="products.php?delete_image=1&edit=<?=$edit_id;?>" class="text-danger">Delete image</a>
 
 		<?php else: ?>
 			<label for="photo">Product Photo:</label>

@@ -25,8 +25,8 @@ if(isset($_SESSION['SBUser'])){
 	$user_data['last'] = $fn[1];
 }
 
-if(isset($_SESSION['success_flash'])) {
-	echo '<div class="bg-success"><p class="text-success text-center"> '.$_SESSION['success_flash'] . '</p></div> ';
+if(isset($_SESSION['success_flash'])){
+	echo '<div style="margin-top: 80px;" class="bg-success"><p class="text-success text-center">'.$_SESSION['success_flash'].'</p></div>';
 	unset($_SESSION['success_flash']);
 }
 

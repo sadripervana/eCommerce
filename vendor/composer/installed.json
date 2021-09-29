@@ -58,6 +58,10 @@
                 "payment processing",
                 "stripe"
             ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v7.97.0"
+            },
             "install-path": "../stripe/stripe-php"
         }
     ],

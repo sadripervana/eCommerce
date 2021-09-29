@@ -74,6 +74,7 @@ foreach ($items as $item) {
 
 //update cart
 $db->query("UPDATE cart SET paid = 1 WHERE id = '{$cart_id}'");
+$db->query("UPDATE products SET sold = '{$item['quantity']}' WHERE id = '{$item['id']}'");
 $db->query("INSERT INTO transactions 
 	(charge_id,cart_id,full_name,email,street,street2,city,state,zip_code,country,sub_total,tax,grand_total,description,txn_type) VALUES 
 	('$charge->id','$cart_id','$full_name','$email','$street','$street2','$city','$state','$zip_code','$country','$sub_total','$tax','$grand_total','$description','$charge->object')");

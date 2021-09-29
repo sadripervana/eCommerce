@@ -41,7 +41,7 @@ $presults = $db->query($sql);
 			?>
 			<tr>
 				<td>
-					<a href="archived.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default">Restore</a>
+					<a href="archived.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="fas fa-undo-alt"></i> Restore</a>
 				</td>
 				<td>
 					<?=$product['title']; ?>

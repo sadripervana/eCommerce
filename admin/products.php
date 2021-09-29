@@ -277,10 +277,10 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 					<td>
 						<a href="products.php?edit=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="far fa-edit"></i></a>
 						<a href="products.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="fal fa-times"></i></a>
-
 					</td>
 					<td>
 						<?=$product['title']; ?>
+						<img src="../<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
 					</td>
 					<td><?=money($product['price']); ?></td>
 					<td><?=$category; ?></td>

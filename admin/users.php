@@ -1,5 +1,5 @@
 <?php 
-require_once '../core/init.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
 if(!is_loged_in()){
 	login_error_redirect();
 }

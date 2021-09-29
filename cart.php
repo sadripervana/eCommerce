@@ -102,7 +102,7 @@ if ($cart_id != '') {
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="checkoutModalLabel">Modal title</h4>
+							<h4 class="modal-title" id="checkoutModalLabel">Shipping Address</h4>
 						</div>
 						<div class="modal-body">
 							<div class="row">
@@ -120,15 +120,15 @@ if ($cart_id != '') {
 										</div>
 										<div class="form-group col-md-6">
 											<label for="email">Email:</label>
-											<input type="text" class="form-control" id="email" name="email">
+											<input type="email" class="form-control" id="email" name="email">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="street">Street Addres:</label>
 											<input type="text" class="form-control" id="street" name="street" data-stripe="address_line1">
 										</div>
 										<div class="form-group col-md-6">
-											<label for="stree2">Street Address 2:</label>
-											<input type="text" class="form-control" id="stree2" name="street2" data-stripe="address_line2">
+											<label for="street2">Street Address 2:</label>
+											<input type="text" class="form-control" id="street2" name="street2" data-stripe="address_line2">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="city">City:</label>
@@ -172,7 +172,7 @@ if ($cart_id != '') {
 									</div>
 									<div class="form-group col-md-2">
 										<label for="exp-year">Expire Year:</label>
-										<select name="" id="exp-year" class="form-control" data-stripe="exp_year">
+										<select id="exp-year" class="form-control" data-stripe="exp_year">
 											<option value=""></option>
 											<?php $yr = date("Y"); ?>
 											<?php	for($i = 0; $i <11; $i++): ?>

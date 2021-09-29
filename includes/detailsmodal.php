@@ -42,6 +42,7 @@ $size_array = explode(',', $sizestring);
 							<hr>
 							<p>Price: $<?= $product['price']; ?></p>
 							<p>Brand: <?= $brand['brand'] ?></p>
+							<p>Sold: <?=$product['sold']; ?></p>
 							<form action="add_cart.php" method="post" id="add_product_form">
 								<input type="hidden" name="product_id" value="<?=$id;?>">
 								<input type="hidden" name="available" id="available" value="">

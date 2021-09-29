@@ -10,9 +10,11 @@ include 'includes/navigation.php';
 if(isset($_GET['delete'])){
 	$id = sanitize($_GET['delete']);
 	$db->query("UPDATE products SET deleted = 1 WHERE id ='$id'");
+	$_SESSION['success_flash'] = 'Product successfuly deleted.';
 	header('Location: products.php');
 }
 $dbpath = '';
+
 
 if(isset($_GET['add']) || isset($_GET['edit'])){
 	$brandQuery = $db->query("SELECT * FROM brand ORDER BY brand");
@@ -24,6 +26,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 	$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):'');
 	$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')?sanitize($_POST['list_price']):'');
 	$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):'');
+	$sold = ((isset($_POST['sold']) && $_POST['sold'] != '')?sanitize($_POST['sold']):'');
 	$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):'');
 	$sizes = rtrim($sizes, ',');
 	$saved_image = '';
@@ -31,14 +34,17 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 
 	if(isset($_GET['edit'])){
 		$edit_id = (int)$_GET['edit'];
+		// $child = $_POST['child'];
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
 			$image_url = BASEURL . $product['image'];
 			unlink($image_url);
 			$db->query("UPDATE products SET image = '' WHERE id = '$edit_id'");
+			$_SESSION['success_flash'] = 'Product successfuly updated!';
 			header('Location: products.php?edit='.$edit_id);
 		}
+		// $category = issetP($_POST['child'], $product['categories']);
 		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
 		$title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):$product['title']);
 		$brand = ((isset($_POST['brand']) && $_POST['brand'] != '')?sanitize($_POST['brand']):$product['brand']);
@@ -48,6 +54,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):$product['price']);
 		$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')?sanitize($_POST['list_price']):$product['list_price']);
 		$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):$product['description']);
+		$sold = ((isset($_POST['sold']) && $_POST['sold'] != '')?sanitize($_POST['sold']):$product['sold']);
 		$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
 		$sizes = rtrim($sizes, ',');
 		$saved_image = (($product['image'] != '')?$product['image']:'');
@@ -115,9 +122,10 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				move_uploaded_file($tmpLoc, $uploadPath);
 			}
 			
-			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
+			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, `sold`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description', '$sold')";
 			if(isset($_GET['edit'])){
-				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', images = '$dbpath', description = '$description' WHERE id = '$edit_id'";
+				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description', sold = '$sold' WHERE id = '$edit_id'";
+
 			}
 			$db->query($insertSql);
 			header('Location: products.php');
@@ -182,9 +190,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			<input type="file" name="photo" id="photo" class="form-control">
 		<?php endif; ?>
 	</div>
-	<div class="form-group col-md-6">
+	<div class="form-gorup col-md-3">
+		<label for="sizes">Sold</label>
+		<input type="number" min="0" class="form-control" id="sold" name="sold" value="<?=$sold; ?>">
+	</div>
+	<div class="form-group col-md-3">
 		<label for="discription">Description</label>
-		<textarea name="description" id="description" class="form-control" cols="30" rows="10"><?=$description;?></textarea>
+		<textarea name="description" id="description" class="form-control" cols="30" rows="5"><?=$description;?></textarea>
 	</div>
 	<div class="form-group pull-right">
 		<a href="products.php" class="btn btn-default">Cancel</a>

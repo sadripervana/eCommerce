@@ -44,7 +44,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$_SESSION['success_flash'] = 'Product successfuly updated!';
 			header('Location: products.php?edit='.$edit_id);
 		}
-		// $category = issetP($_POST['child'], $product['categories']);
 		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
 		$title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):$product['title']);
 		$brand = ((isset($_POST['brand']) && $_POST['brand'] != '')?sanitize($_POST['brand']):$product['brand']);

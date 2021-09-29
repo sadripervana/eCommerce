@@ -55,7 +55,7 @@ function has_permission($permission = 'admin'){
 	return false; 
 }
 
-function prettyDate($date){
+function pretty_date($date){
 	return date("M d, Y h:i A", strtotime($date));
 }
 
@@ -92,5 +92,4 @@ function sizesToString($sizes){
 	$trimmed = rtrim($sizeString, ',');
 	return $trimmed;
 }
-
  ?>

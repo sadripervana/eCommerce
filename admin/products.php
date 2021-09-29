@@ -275,7 +275,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 					<td><?=$category; ?></td>
 					<td><a href="products.php?featured=<?=(($product['featured'] == 0))?'1':'0' ;?>&id=<?=$product['id']; ?>" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-<?=(($product['featured'] == 1))?'minus':'plus' ;?>"></span>
 					</a>&nbsp <?= (($product['featured'] == 1)? 'Featured Product':''); ?></td>
-					<td>0</td>
+					<td><?=$product['sold']; ?></td>
 				</tr>
 
 			<?php endwhile; ?>

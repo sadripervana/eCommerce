@@ -139,8 +139,8 @@ if(isset($_GET['edit'])){
 					$sql2 = "SELECT * FROM categories WHERE parent = '$parent_id'";
 					$cresult = $db->query($sql2);
 					?>
-					<tr class="bg-primary">
-						<td><?=$parent['category'] ?></td>
+					<tr id="parent_category" class="bg-primary">
+						<td ><?=$parent['category'] ?></td>
 						<td>Parent</td>
 						<td>
 							<a href="categories.php?edit=<?=$parent['id'] ?>" class="btn btn-default btn-xs"><i class="far fa-edit"></i></a>	

@@ -73,7 +73,7 @@ function sizesToArray($string){
 	$returnArray = [];
 	foreach ($sizesArray as $size) {
 		$s = explode(':',$size);
-		$returnArray[] = ['size' => $s[0], 'quantiry' => $s[1]];
+		$returnArray[] = ['size' => $s[0], 'quantity' => $s[1]];
 	}
 	return $returnArray;
 }
@@ -81,8 +81,9 @@ function sizesToArray($string){
 function sizesToString($sizes){
 	$sizeString = '';
 	foreach ($sizes as $size) {
-		$sizeString .= $size['size']. ':'.$size['quantity'].',';
+		$sizeString .= $size['size'] . ':'.$size['quantity'].',';
 	}
-	$trimed = rtrim($sizeString,',');
+	$trimed = rtrim($sizeString, ',');
 	return $trimed;
 }
+?>

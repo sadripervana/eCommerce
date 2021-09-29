@@ -128,7 +128,7 @@ if ($cart_id != '') {
 										</div>
 										<div class="form-group col-md-6">
 											<label for="stree2">Street Address 2:</label>
-											<input type="text" class="form-control" id="stree2" name="stree2" data-stripe="address_line2">
+											<input type="text" class="form-control" id="stree2" name="street2" data-stripe="address_line2">
 										</div>
 										<div class="form-group col-md-6">
 											<label for="city">City:</label>

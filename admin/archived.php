@@ -48,7 +48,7 @@ $presults = $db->query($sql);
 				</td>
 				<td><?=money($product['price']); ?></td>
 				<td><?=$category; ?></td>
-				<td>0</td>
+				<td><?=$product['sold']; ?></td>
 			</tr>
 		<?php endwhile; ?>
 	</tbody>

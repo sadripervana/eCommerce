@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+
+
 body {
 	padding-top: 50px;
+	font-family: 'Montserrat',Sans-serif;
 }
 
 #headerWrapper{
@@ -160,4 +164,27 @@ table.table-auto {
 
 #back_button{
 	display: none;
+}
+
+th {
+ background-color: #1CB5E0;
+ color: #fafafa;
+ font-family: 'Open Sans',Sans-serif;
+ font-weight: 200;
+ text-transform: uppercase;
+ padding: 7px 14px;
+ text-align: center;
+}
+
+tr {
+ background-color: #fafafa;
+ font-family: 'Montserrat', sans-serif;
+}
+
+tr:nth-child(even) {
+ background-color: #b7e4f7;
+}
+
+#parent_category {
+	background-color: blue;
 }

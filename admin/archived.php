@@ -45,6 +45,7 @@ $presults = $db->query($sql);
 				</td>
 				<td>
 					<?=$product['title']; ?>
+					<img src="../<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
 				</td>
 				<td><?=money($product['price']); ?></td>
 				<td><?=$category; ?></td>

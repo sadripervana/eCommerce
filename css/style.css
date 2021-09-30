@@ -186,5 +186,14 @@ tr:nth-child(even) {
 }
 
 #parent_category {
-	background-color: blue;
+	background-color: blue ;
+}
+
+#sub_total {
+	border-top: 2px solid black;
+	font-weight: bold;
+}
+
+#cart_widget, #recent_widget td{
+	font-size: 12px;
 }

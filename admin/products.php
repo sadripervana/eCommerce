@@ -34,7 +34,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 
 	if(isset($_GET['edit'])){
 		$edit_id = (int)$_GET['edit'];
-		// $child = $_POST['child'];
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
@@ -51,8 +50,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$parentResult = mysqli_fetch_assoc($parentQ);
 		$parent = ((isset($_POST['parent']) && $_POST['parent'] != '')?sanitize($_POST['parent']):$parentResult['parent']);
 		$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):$product['price']);
-		$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')?sanitize($_POST['list_price']):$product['list_price']);
-		$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):$product['description']);
+		$list_price = ((isset($_POST['list_price']))?sanitize($_POST['list_price']):$product['list_price']);
+		$list_price = ((empty($list_price))?'0.00':$list_price);
+		$description = ((isset($_POST['description']))?sanitize($_POST['description']):$product['description']);
 		$sold = ((isset($_POST['sold']) && $_POST['sold'] != '')?sanitize($_POST['sold']):$product['sold']);
 		$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
 		$sizes = rtrim($sizes, ',');
@@ -84,7 +84,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				break;
 			}
 		}
-		if(!empty($_FILES)){
+
+				// var_dump($_FILES);die;
+		if($_FILES['photo']['name'] != ''){
 			$photo = $_FILES['photo'];
 			$name = $photo['name'];
 			$nameArray = explode('.',$name);
@@ -97,7 +99,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$fileSize = $photo['size'];
 			$allowed = ['png', 'jpg', 'jpeg', 'gif'];
 			$uploadName = md5(microtime()) . '.' . $fileExt;
-			$uploadPath = BASEURL.'image/products/' . $uploadName;
+			$uploadPath = $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/images/products/' . $uploadName;
 			$dbpath = 'images/products/' . $uploadName;
 			if($mimeType != 'image'){
 				$errors[] = 'The File must be an image.';
@@ -124,7 +126,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, `sold`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description', '$sold')";
 			if(isset($_GET['edit'])){
 				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description', sold = '$sold' WHERE id = '$edit_id'";
-
 			}
 			$db->query($insertSql);
 			header('Location: products.php');

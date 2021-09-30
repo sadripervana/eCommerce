@@ -49,7 +49,15 @@ $size_array = explode(',', $sizestring);
 								<div class="form-group">
 									<div class="col-xs-3 quantity" >
 										<label for="quantity">Quantity:</label>
-										<input type="number" min="0" class="form-control" id="quantity" name="quantity">
+										<?php 
+										foreach ($size_array as $string) {
+											$string_array= explode(':', $string);
+											$size = $string_array[0];
+											$available = $string_array[1];
+											
+										};
+										?>
+										<input type="number" min="0" max="<?=$available;?>" class="form-control" id="quantity" name="quantity">
 									</div>
 								</div><br><br>
 								<div class="form-group">

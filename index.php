@@ -25,7 +25,11 @@ $featured = $db-> query($sql);
 				<h4><?= $product['title']; ?></h4>
 				<img src="<?=$product['image'];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 				<p class="list-price text-danger">
-					List Price <s>$<?= $product['list_price']; ?></s>
+					<?php 
+					if($product['list_price'] != '0.00'){
+						echo	'List Price <s>$'.	$product['list_price'] .'</s>';
+					}
+					?>
 				</p>
 				<p class="price">
 					Our Price: $<?= $product['price']; ?>

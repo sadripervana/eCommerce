@@ -47,30 +47,20 @@ $size_array = explode(',', $sizestring);
 								<input type="hidden" name="product_id" value="<?=$id;?>">
 								<input type="hidden" name="available" id="available" value="">
 								<div class="form-group">
-									<div class="col-xs-3 quantity" >
-										<label for="quantity">Quantity:</label>
-										<?php 
-										foreach ($size_array as $string) {
-											$string_array= explode(':', $string);
-											$size = $string_array[0];
-											$available = $string_array[1];
-											
-										};
-										?>
-										<input type="number" min="0" max="<?=$available;?>" class="form-control" id="quantity" name="quantity">
-									</div>
-								</div><br><br>
-								<div class="form-group">
 									<br>
 									<br>
 									<label for="size">Size:</label>
 									<select name="size" id="size" class="form-control">
 										<option value=""></option>
 										<?php 
+											$max = -999;
 										foreach ($size_array as $string) {
 											$string_array= explode(':', $string);
 											$size = $string_array[0];
 											$available = $string_array[1];
+											if($max < $available){
+												$max = $available;
+											}
 											if($available > 0){
 												echo '<option value="' . $size . '"data-available="' . $available . '">' . $size . ' (' . $available. ' Available)</option>';
 											}
@@ -78,6 +68,15 @@ $size_array = explode(',', $sizestring);
 										?>
 									</select>
 								</div>
+								<div class="form-group">
+									<div class="col-xs-3 quantity" >
+										<label for="quantity">Quantity:</label>
+										<?php 
+										;
+										?>
+										<input type="number" min="0" max="<?=$max;?>" class="form-control" id="quantity" name="quantity">
+									</div>
+								</div><br><br>
 							</form>
 						</div>
 					</div>

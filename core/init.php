@@ -1,4 +1,7 @@
 <?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $db = mysqli_connect('localhost','admin','admin','supermario');
 if(mysqli_connect_errno()){
@@ -7,8 +10,8 @@ if(mysqli_connect_errno()){
 }
 session_start();
 require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/helpers/helpers.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/vendor/autoload.php';
+require_once BASEURL.'helpers/helpers.php';
+require_once BASEURL.'vendor/autoload.php';
 
 
 $cart_id = '';

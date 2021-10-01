@@ -115,7 +115,7 @@ body {
 	margin-top: 50px;
 }
 
-img.details{
+fotorama__wrap{
 	width: 90%;
 	margin: 15px auto;
 }
@@ -196,4 +196,17 @@ tr:nth-child(even) {
 
 #cart_widget, #recent_widget td{
 	font-size: 12px;
+}
+
+input.price-range{
+	width: 55px;
+}
+
+.saved-image {
+	text-align: center;
+}
+
+.saved-image img {
+	width: auto;
+	height: 150px;
 }

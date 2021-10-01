@@ -19,14 +19,14 @@ $dbpath = '';
 if(isset($_GET['add']) || isset($_GET['edit'])){
 	$brandQuery = $db->query("SELECT * FROM brand ORDER BY brand");
 	$parentQuery = $db->query("SELECT * FROM categories WHERE parent = 0 ORDER BY category");
-	$title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):'');
+	$title = issetParameter($_POST,'title');
+	// $title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):'');
 	$brand = ((isset($_POST['brand']) && !empty($_POST['brand']))?sanitize($_POST['brand']):'');
 	$parent = ((isset($_POST['parent']) && !empty($_POST['parent']))?sanitize($_POST['parent']):'');
 	$category = ((isset($_POST['child']) && !empty($_POST['child']))?sanitize($_POST['child']):'');
 	$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):'');
 	$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')?sanitize($_POST['list_price']):'');
 	$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):'');
-	$sold = ((isset($_POST['sold']) && $_POST['sold'] != '')?sanitize($_POST['sold']):'');
 	$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):'');
 	$sizes = rtrim($sizes, ',');
 	$saved_image = '';
@@ -35,6 +35,12 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 	if(isset($_GET['edit'])){
 		$edit_id = (int)$_GET['edit'];
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
+		$desc = $db->query("DESCRIBE products");
+		$describes = [];
+		$variables = [];
+		while ($describe = mysqli_fetch_assoc($desc)) {
+			$describes[] = $describe['Field'];
+		}
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
 			$imgi = (int)$_GET['imgi'] - 1;
@@ -47,18 +53,30 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$_SESSION['success_flash'] = 'Product successfuly updated!';
 			header('Location: products.php?edit='.$edit_id);
 		}
-		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
-		$title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):$product['title']);
-		$brand = ((isset($_POST['brand']) && $_POST['brand'] != '')?sanitize($_POST['brand']):$product['brand']);
-		$parentQ = $db->query("SELECT * FROM categories WHERE id = '$category'");
+
+		// var_dump($product);die;
+		$countColons = count($product);
+		for ($i = 1; $i < $countColons ; $i++) {
+			$variables[] = [$describes[$i] =>  issetParameter($_POST,$describes[$i],$product[$describes[$i]])]	;
+			extract($variables[$i-1]);
+		}
+		// for ($i = 1; $i < $countColons ; $i++) {
+		// $sdescribes[$i] =  issetParameter($_POST,$describes[$i],$product[$describes[$i]]);
+		// }
+		var_dump($product);die;
+
+		// $title = issetParameter($_POST,'title',$product['title']);
+		// // $title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):$product['title']);
+		// $category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
+		// $brand = ((isset($_POST['brand']) && $_POST['brand'] != '')?sanitize($_POST['brand']):$product['brand']);
+		$parentQ = $db->query("SELECT * FROM categories WHERE id = '$categories'");
 		$parentResult = mysqli_fetch_assoc($parentQ);
 		$parent = ((isset($_POST['parent']) && $_POST['parent'] != '')?sanitize($_POST['parent']):$parentResult['parent']);
-		$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):$product['price']);
-		$list_price = ((isset($_POST['list_price']))?sanitize($_POST['list_price']):$product['list_price']);
-		$list_price = ((empty($list_price))?'0.00':$list_price);
-		$description = ((isset($_POST['description']))?sanitize($_POST['description']):$product['description']);
-		$sold = ((isset($_POST['sold']) && $_POST['sold'] != '')?sanitize($_POST['sold']):$product['sold']);
-		$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
+		// $price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):$product['price']);
+		// $list_price = ((isset($_POST['list_price']))?sanitize($_POST['list_price']):$product['list_price']);
+		// $list_price = ((empty($list_price))?'0.00':$list_price);
+		// $description = ((isset($_POST['description']))?sanitize($_POST['description']):$product['description']);
+		// $sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
 		$sizes = rtrim($sizes, ',');
 		$saved_image = (($product['image'] != '')?$product['image']:'');
 		$dbpath = $saved_image;
@@ -92,6 +110,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			}
 		}
 		$photoCount = count($_FILES['photo']['name']);
+		var_dump($_FILES['photo']['name']);die;
 		if($photoCount > 0){
 			for($i = 0; $i < $photoCount; $i++){
 				$name = $_FILES['photo']['name'][$i];
@@ -133,9 +152,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				}
 			}
 
-			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, `sold`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description', '$sold')";
+			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, ) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
 			if(isset($_GET['edit'])){
-				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description', sold = '$sold' WHERE id = '$edit_id'";
+				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description',  WHERE id = '$edit_id'";
 			}
 			$db->query($insertSql);
 			header('Location: products.php');
@@ -207,10 +226,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			<input type="file" name="photo[]" id="photo" class="form-control" multiple>
 		<?php endif; ?>
 	</div>
-	<div class="form-gorup col-md-3">
-		<label for="sizes">Sold</label>
-		<input type="number" min="0" class="form-control" id="sold" name="sold" value="<?=$sold; ?>">
-	</div>
+	
 	<div class="form-group col-md-3">
 		<label for="discription">Description</label>
 		<textarea name="description" id="description" class="form-control" cols="30" rows="5"><?=$description;?></textarea>

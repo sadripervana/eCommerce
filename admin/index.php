@@ -31,8 +31,8 @@ $txnResults = $db->query($txnQuery);
 				<tr>
 					<td><a href="orders.php?txn_id=<?=$order['id'];?>" class="btn btn-xs btn-info">Details</a></td>
 					<td><?=$order['full_name'];?></td>
-					<td><?=$order['description'];?></td>
 					<td><?=money($order['grand_total']);?></td>
+					<td><?=$order['description'];?></td>
 					<td><?=pretty_date($order['txn_date']);?></td>
 				</tr>
 			<?php endwhile; ?>

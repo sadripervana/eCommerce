@@ -1,8 +1,4 @@
 <?php 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once 'core/init.php';
 include 'includes/head.php';
 include 'includes/navigation.php';
@@ -23,7 +19,8 @@ $featured = $db-> query($sql);
 		<?php while($product = mysqli_fetch_assoc($featured)) : ?>
 			<div class="col-md-3"> 
 				<h4><?= $product['title']; ?></h4>
-				<img src="<?=$product['image'];?>" alt="<?=$product['title'];?>" class="img-thumb" />
+				<?php $photos = explode(',',$product['image']); ?>
+				<img src="<?=$photos[0];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 				<p class="list-price text-danger">
 					<?php 
 					if($product['list_price'] != '0.00'){

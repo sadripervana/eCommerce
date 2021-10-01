@@ -59,10 +59,10 @@ function get_category($child_id){
 	global $db;
 	$id = sanitize($child_id);
 	$sql = "SELECT p.id AS 'pid', p.category AS 'parent', c.id AS 'cid', c.category AS 'child'
-			FROM categories c
-			INNER JOIN categories p
-			ON c.parent = p.id
-			WHERE c.id = '$id'";
+	FROM categories c
+	INNER JOIN categories p
+	ON c.parent = p.id
+	WHERE c.id = '$id'";
 	$query = $db->query($sql);
 	$category = mysqli_fetch_assoc($query);
 	return $category;
@@ -88,4 +88,13 @@ function sizesToString($sizes){
 	$trimmed = rtrim($sizeString, ',');
 	return $trimmed;
 }
- ?>
+
+function issetParameter($post, $key, $returnValue = ''){
+		// $title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):'');
+	if(isset($post[$key]) && $post[$key] != ''){
+		return sanitize($post[$key]);
+	} else {
+		return $returnValue;
+	}
+}
+?>

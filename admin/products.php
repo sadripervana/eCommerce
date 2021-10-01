@@ -37,9 +37,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
-			$image_url = BASEURL . $product['image'];
+			$imgi = (int)$_GET['imgi'] - 1;
+			$images = explode(',', $product['image']);
+			$image_url = BASEURL . $images[$imgi];
 			unlink($image_url);
-			$db->query("UPDATE products SET image = '' WHERE id = '$edit_id'");
+			unset($images[$imgi]);
+			$imageString = implode(',',$images);
+			$db->query("UPDATE products SET image = '{$imageString}' WHERE id = '$edit_id'");
 			$_SESSION['success_flash'] = 'Product successfuly updated!';
 			header('Location: products.php?edit='.$edit_id);
 		}
@@ -78,51 +82,57 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 	if($_POST){
 		$errors = [];
 		$require = ['title', 'brand', 'price', 'parent', 'child', 'sizes'];
+		$allowed = ['png', 'jpg', 'jpeg', 'gif'];
+		$tmpLoc = [];
+		$uploadPath = [];
 		foreach ($require as $field) {
 			if($_POST[$field] == '') {
 				$errors[] = 'All Fields With and Astrisk are required.';
 				break;
 			}
 		}
-
-				// var_dump($_FILES);die;
-		if($_FILES['photo']['name'] != ''){
-			$photo = $_FILES['photo'];
-			$name = $photo['name'];
-			$nameArray = explode('.',$name);
-			$fileName = $nameArray[0];
-			$fileExt = $nameArray[1];
-			$mime = explode('/', $photo['type']);
-			$mimeType = $mime[0];
-			$mimeExt = $mime[1];
-			$tmpLoc = $photo['tmp_name'];
-			$fileSize = $photo['size'];
-			$allowed = ['png', 'jpg', 'jpeg', 'gif'];
-			$uploadName = md5(microtime()) . '.' . $fileExt;
-			$uploadPath = $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/images/products/' . $uploadName;
-			$dbpath = 'images/products/' . $uploadName;
-			if($mimeType != 'image'){
-				$errors[] = 'The File must be an image.';
-			}
-			if(!in_array($fileExt, $allowed)){
-				$errors[] = 'The photo extension must be a png, jpg, jpeg, or gif.';
-			}
-			if($fileSize > 150000000){
-				$errors[] = 'The fileSize must be under 15MB';
-			}
-			if($fileExt != $mimeExt && ($mimeExt == 'jpeg' && $fileExt != 'jpg')){
-				$errors[] = 'File extension does not match the file.';
+		$photoCount = count($_FILES['photo']['name']);
+		if($photoCount > 0){
+			for($i = 0; $i < $photoCount; $i++){
+				$name = $_FILES['photo']['name'][$i];
+				$nameArray = explode('.',$name);
+				$fileName = $nameArray[0];
+				$fileExt = $nameArray[1];
+				$mime = explode('/', $_FILES['photo']['type'][$i]);
+				$mimeType = $mime[0];
+				$mimeExt = $mime[1];
+				$tmpLoc[] = $_FILES['photo']['tmp_name'][$i];
+				$fileSize = $_FILES['photo']['size'][$i];
+				$uploadName = md5(microtime().$i) . '.' . $fileExt;
+				$uploadPath[] = BASEURL . 'images/products/' . $uploadName;
+				if($i != 0){
+					$dbpath .= ',';
+				}
+				$dbpath .= 'images/products/' . $uploadName;
+				if($mimeType != 'image'){
+					$errors[] = 'The File must be an image.';
+				}
+				if(!in_array($fileExt, $allowed)){
+					$errors[] = 'The photo extension must be a png, jpg, jpeg, or gif.';
+				}
+				if($fileSize > 150000000){
+					$errors[] = 'The fileSize must be under 15MB';
+				}
+				if($fileExt != $mimeExt && ($mimeExt == 'jpeg' && $fileExt != 'jpg')){
+					$errors[] = 'File extension does not match the file.';
+				}
 			}
 		}
 		if(!empty($errors)){
-			var_dump($errors);die;
 			echo display_errors($errors);
 		} else {
-			//Upload file and insert into database
-			if(!empty($_FILES)){
-				move_uploaded_file($tmpLoc, $uploadPath);
+			if($photoCount > 0){
+			// Upload file and insert into database
+				for ($i=0; $i < $photoCount; $i++) { 
+					move_uploaded_file($tmpLoc[$i], $uploadPath[$i]);
+				}
 			}
-			
+
 			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, `sold`) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description', '$sold')";
 			if(isset($_GET['edit'])){
 				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description', sold = '$sold' WHERE id = '$edit_id'";
@@ -174,20 +184,27 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		<button class="btn btn-default form-control" onclick="jQuery('#sizesModal').modal('toggle');return false;">Quantity & Sizes</button>
 	</div>
 	<div class="form-gorup col-md-3">
-		
+
 		<label for="sizes">Sizes & Quantity Preview</label>
 		<input type="text" name="sizes" class="form-control" id="sizes" value="<?=$sizes; ?>" readonly>
 	</div>
 	<div class="form-group col-md-6">
 		<?php if($saved_image != ''): ?>
-			<div class="saved-image">
-				<img src="<?='../'.$saved_image;?>" alt="saved-image" class="img-thumb"/>
-			</div>
-			<a href="products.php?delete_image=1&edit=<?=$edit_id;?>" class="text-danger">Delete image</a>
-
+			<?php 
+			$imgi = 1;
+			$images = explode(',',$saved_image);
+			foreach($images as $image):
+				?>
+				<div class="saved-image col-md-4">
+					<img src="<?='../'.$image;?>" alt="saved-image" class="img-thumb"/>
+					<a href="products.php?delete_image=1&edit=<?=$edit_id;?>&imgi=<?=$imgi;?>" class="text-danger">Delete image</a>
+				</div>
+				<?php 
+				$imgi++;
+			endforeach; ?>
 		<?php else: ?>
 			<label for="photo">Product Photo:</label>
-			<input type="file" name="photo" id="photo" class="form-control">
+			<input type="file" name="photo[]" id="photo" class="form-control" multiple>
 		<?php endif; ?>
 	</div>
 	<div class="form-gorup col-md-3">
@@ -200,7 +217,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 	</div>
 	<div class="form-group pull-right">
 		<a href="products.php" class="btn btn-default">Cancel</a>
-		<input type="submit" value="<?=((isset($_GET['edit']))?'Edit':'Add a New');?> Product" class="btn btn-success" >
+		<input type="submit" value="<?=((isset($_GET['edit']))?'Edit':'Add a New');?> Product" class="btn btn-success " >
 	</div>
 	<div class="clearfix"></div>
 </form>

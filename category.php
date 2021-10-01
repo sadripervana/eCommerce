@@ -1,8 +1,4 @@
-<?php 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+<?php
 require_once 'core/init.php';
 include 'includes/head.php';
 include 'includes/navigation.php';
@@ -30,7 +26,8 @@ $category = get_category($cat_id);
 		<?php while($product = mysqli_fetch_assoc($productQ)) : ?>
 			<div class="col-md-3"> 
 				<h4><?= $product['title']; ?></h4>
-				<img src="<?=$product['image'];?>" alt="<?=$product['title'];?>" class="img-thumb" />
+				<?php $photos = explode(',', $product['image']); ?>
+				<img src="<?=$photos[0];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 				<p class="list-price text-danger">
 					List Price <s>$<?= $product['list_price']; ?></s>
 				</p>

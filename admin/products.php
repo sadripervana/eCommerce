@@ -103,11 +103,14 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			}
 		}
 
-		$photoCount = count($_FILES['photo']['name']);
-	 if($saved_image == ''&& $_FILES["photo"]["error"][0] != 4){
+
+	 if($saved_image == '' ){
+		 if($_FILES["photo"]["error"][0] != 4){
+		  $photoCount = count($_FILES['photo']['name']);
 			$values =	 makePhoto($photoCount,$dbpath,$allowed,$errors);
 			extract($values);
 		}
+	}
 
 		if(!empty($errors)){
 			echo display_errors($errors);

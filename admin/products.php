@@ -1,5 +1,5 @@
-<?php 
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'].'/eCommerce/core/init.php';
 if(!is_loged_in()){
 	login_error_redirect();
 }
@@ -17,32 +17,38 @@ $dbpath = '';
 
 
 if(isset($_GET['add']) || isset($_GET['edit'])){
+
 	$brandQuery = $db->query("SELECT * FROM brand ORDER BY brand");
 	$parentQuery = $db->query("SELECT * FROM categories WHERE parent = 0 ORDER BY category");
-	$title = issetParameter($_POST,'title');
-	// $title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):'');
-	$brand = ((isset($_POST['brand']) && !empty($_POST['brand']))?sanitize($_POST['brand']):'');
+	$desc = $db->query("DESCRIBE products");
+	$describes = [];
+	$variablesAdd = [];
+
+	while ($describe = mysqli_fetch_assoc($desc)) {
+		$describes[] = $describe['Field'];
+	}
+
+	$countColons = count($describes, COUNT_NORMAL );;
+	for ($i = 1; $i < $countColons ; $i++) {
+		// [] = [ ['title'] => ((isset($_POST['title'])?$_POST['title']:'') ];
+		$variablesAdd[] = [$describes[$i] =>  issetParameter($_POST,$describes[$i])]	;
+		extract($variablesAdd[$i-1]);
+	}
+
 	$parent = ((isset($_POST['parent']) && !empty($_POST['parent']))?sanitize($_POST['parent']):'');
 	$category = ((isset($_POST['child']) && !empty($_POST['child']))?sanitize($_POST['child']):'');
-	$price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):'');
-	$list_price = ((isset($_POST['list_price']) && $_POST['list_price'] != '')?sanitize($_POST['list_price']):'');
-	$description = ((isset($_POST['description']) && $_POST['description'] != '')?sanitize($_POST['description']):'');
-	$sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):'');
 	$sizes = rtrim($sizes, ',');
 	$saved_image = '';
 
 
 	if(isset($_GET['edit'])){
+		$variablesEdit = [];
 		$edit_id = (int)$_GET['edit'];
 		$productResults = $db->query("SELECT * FROM products WHERE id = '$edit_id'");
-		$desc = $db->query("DESCRIBE products");
-		$describes = [];
-		$variables = [];
-		while ($describe = mysqli_fetch_assoc($desc)) {
-			$describes[] = $describe['Field'];
-		}
+
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
+			$saved_image = '';
 			$imgi = (int)$_GET['imgi'] - 1;
 			$images = explode(',', $product['image']);
 			$image_url = BASEURL . $images[$imgi];
@@ -54,29 +60,16 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			header('Location: products.php?edit='.$edit_id);
 		}
 
-		// var_dump($product);die;
 		$countColons = count($product);
 		for ($i = 1; $i < $countColons ; $i++) {
-			$variables[] = [$describes[$i] =>  issetParameter($_POST,$describes[$i],$product[$describes[$i]])]	;
-			extract($variables[$i-1]);
+			// [] = [ ['title'] => ((isset($_POST['title'])?$_POST['title']:$product['title']) ];
+			$variablesEdit[] = [ $describes[$i] => issetParameter($_POST,$describes[$i],$product[$describes[$i]]) ]	;
+			extract($variablesEdit[$i-1]);
 		}
-		// for ($i = 1; $i < $countColons ; $i++) {
-		// $sdescribes[$i] =  issetParameter($_POST,$describes[$i],$product[$describes[$i]]);
-		// }
-		var_dump($product);die;
-
-		// $title = issetParameter($_POST,'title',$product['title']);
-		// // $title = ((isset($_POST['title']) && $_POST['title'] != '')?sanitize($_POST['title']):$product['title']);
-		// $category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
-		// $brand = ((isset($_POST['brand']) && $_POST['brand'] != '')?sanitize($_POST['brand']):$product['brand']);
-		$parentQ = $db->query("SELECT * FROM categories WHERE id = '$categories'");
+		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
+		$parentQ = $db->query("SELECT * FROM categories WHERE id = '$category'");
 		$parentResult = mysqli_fetch_assoc($parentQ);
 		$parent = ((isset($_POST['parent']) && $_POST['parent'] != '')?sanitize($_POST['parent']):$parentResult['parent']);
-		// $price = ((isset($_POST['price']) && $_POST['price'] != '')?sanitize($_POST['price']):$product['price']);
-		// $list_price = ((isset($_POST['list_price']))?sanitize($_POST['list_price']):$product['list_price']);
-		// $list_price = ((empty($list_price))?'0.00':$list_price);
-		// $description = ((isset($_POST['description']))?sanitize($_POST['description']):$product['description']);
-		// $sizes = ((isset($_POST['sizes']) && $_POST['sizes'] != '')?sanitize($_POST['sizes']):$product['sizes']);
 		$sizes = rtrim($sizes, ',');
 		$saved_image = (($product['image'] != '')?$product['image']:'');
 		$dbpath = $saved_image;
@@ -109,53 +102,28 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				break;
 			}
 		}
+
 		$photoCount = count($_FILES['photo']['name']);
-		var_dump($_FILES['photo']['name']);die;
-		if($photoCount > 0){
-			for($i = 0; $i < $photoCount; $i++){
-				$name = $_FILES['photo']['name'][$i];
-				$nameArray = explode('.',$name);
-				$fileName = $nameArray[0];
-				$fileExt = $nameArray[1];
-				$mime = explode('/', $_FILES['photo']['type'][$i]);
-				$mimeType = $mime[0];
-				$mimeExt = $mime[1];
-				$tmpLoc[] = $_FILES['photo']['tmp_name'][$i];
-				$fileSize = $_FILES['photo']['size'][$i];
-				$uploadName = md5(microtime().$i) . '.' . $fileExt;
-				$uploadPath[] = BASEURL . 'images/products/' . $uploadName;
-				if($i != 0){
-					$dbpath .= ',';
-				}
-				$dbpath .= 'images/products/' . $uploadName;
-				if($mimeType != 'image'){
-					$errors[] = 'The File must be an image.';
-				}
-				if(!in_array($fileExt, $allowed)){
-					$errors[] = 'The photo extension must be a png, jpg, jpeg, or gif.';
-				}
-				if($fileSize > 150000000){
-					$errors[] = 'The fileSize must be under 15MB';
-				}
-				if($fileExt != $mimeExt && ($mimeExt == 'jpeg' && $fileExt != 'jpg')){
-					$errors[] = 'File extension does not match the file.';
-				}
-			}
+	 if($saved_image == ''&& $_FILES["photo"]["error"][0] != 4){
+			$values =	 makePhoto($photoCount,$dbpath,$allowed,$errors);
+			extract($values);
 		}
+
 		if(!empty($errors)){
 			echo display_errors($errors);
 		} else {
-			if($photoCount > 0){
+			if($_FILES["photo"]["error"][0] != 4){
 			// Upload file and insert into database
-				for ($i=0; $i < $photoCount; $i++) { 
+				for ($i=0; $i < $photoCount; $i++) {
 					move_uploaded_file($tmpLoc[$i], $uploadPath[$i]);
 				}
 			}
 
-			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description`, ) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
+			$insertSql = "INSERT INTO products(`title`, `price`, `list_price`, `brand`, `categories`, `sizes`, `image`, `description` ) VALUES ('$title', '$price', '$list_price', '$brand', '$category', '$sizes', '$dbpath', '$description')";
 			if(isset($_GET['edit'])){
-				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description',  WHERE id = '$edit_id'";
+				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description'  WHERE id = '$edit_id'";
 			}
+			// var_dump($insertSql);die;
 			$db->query($insertSql);
 			header('Location: products.php');
 		}
@@ -182,8 +150,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		<select class="form-control"  id="parent" name="parent">
 			<option value="<?=(($parent == '')?'selected':''); ?>"></option>
 			<?php while($p = mysqli_fetch_assoc($parentQuery)): ?>
+
 				<option value="<?=$p['id'];?>" <?=(($parent == $p['id'])?'selected':'');?>><?=$p['category']; ?></option>
-			<?php endwhile; ?>
+			<?php	 endwhile;?>
 		</select>
 	</div>
 	<div class="form-group col-md-3">
@@ -209,16 +178,16 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 	</div>
 	<div class="form-group col-md-6">
 		<?php if($saved_image != ''): ?>
-			<?php 
+			<?php
 			$imgi = 1;
 			$images = explode(',',$saved_image);
 			foreach($images as $image):
 				?>
 				<div class="saved-image col-md-4">
-					<img src="<?='../'.$image;?>" alt="saved-image" class="img-thumb"/>
+					<img src="<?=$image;?>" alt="saved-image" class="img-thumb"/>
 					<a href="products.php?delete_image=1&edit=<?=$edit_id;?>&imgi=<?=$imgi;?>" class="text-danger">Delete image</a>
 				</div>
-				<?php 
+				<?php
 				$imgi++;
 			endforeach; ?>
 		<?php else: ?>
@@ -226,7 +195,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			<input type="file" name="photo[]" id="photo" class="form-control" multiple>
 		<?php endif; ?>
 	</div>
-	
+
 	<div class="form-group col-md-3">
 		<label for="discription">Description</label>
 		<textarea name="description" id="description" class="form-control" cols="30" rows="5"><?=$description;?></textarea>
@@ -255,7 +224,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 						</div>
 						<div class="form-group col-md-2">
 							<label for="qty<?=$i;?>">Quantity:</label>
-							<input type="number" name="qty<?=$i;?>" id="qty<?=$i;?>" value="<?=((!empty($qArray[$i-1]))?$qArray[$i-1] :'' );?>" min="0" class="form-control"> 
+							<input type="number" name="qty<?=$i;?>" id="qty<?=$i;?>" value="<?=((!empty($qArray[$i-1]))?$qArray[$i-1] :'' );?>" min="0" class="form-control">
 						</div>
 					<?php endfor; ?>
 				</div>
@@ -305,7 +274,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 				$pSql = "SELECT * FROM categories WHERE id = '$parentID'";
 				$presult = $db->query($pSql);
 				$parent = mysqli_fetch_assoc($presult);
-				$category = $parent['category'].' ~ '.$child['category']; 
+				$category = $parent['category'].' ~ '.$child['category'];
 				?>
 				<tr>
 					<td>
@@ -314,7 +283,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 					</td>
 					<td>
 						<?=$product['title']; ?>
-						<img src="../<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
+						<img src="<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
 					</td>
 					<td><?=money($product['price']); ?></td>
 					<td><?=$category; ?></td>

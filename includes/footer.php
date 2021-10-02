@@ -2,16 +2,16 @@
 </div>
 
 <footer class="text-center" id="footer">
-	<h4>© 2021 Web App from SADRI PERVANA 
-		<a href="https://github.com/sadripervana" target="_blank"> 
+	<h4>© 2021 Web App from SADRI PERVANA
+		<a href="https://github.com/sadripervana" target="_blank">
 			<i class="fab fa-github"></i>
 		</a>
-		<a href="https://www.linkedin.com/in/sadri-pervana-b76a3421a/" target="_blank"> 
+		<a href="https://www.linkedin.com/in/sadri-pervana-b76a3421a/" target="_blank">
 			<i class="fab fa-linkedin"></i>
 		</a>
-		<a href="https://wa.me/+355685101074" target="_blank"> 
+		<a href="https://wa.me/+355685101074" target="_blank">
 			<i class="fab fa-whatsapp"></i>
-		</a> 
+		</a>
 	</h4>
 </footer>
 
@@ -39,7 +39,7 @@
 	function detailsmodal(id){
 		var data = {"id" : id};
 		jQuery.ajax({
-			url 	: 	'/PHPProjects/PHPeCommerce1/includes/detailsmodal.php',
+			url 	: 	BASEURL . 'includes/detailsmodal.php',
 			method 	: 	"post",
 			data 	: 	data,
 			success : 	function(data){
@@ -69,7 +69,7 @@
 			return;
 		} else {
 			jQuery.ajax({
-				url : '/PHPProjects/PHPeCommerce1/admin/parsers/add_cart.php',
+				url :  BASEURL . 'admin/parsers/add_cart.php',
 				method :'post',
 				data : data,
 				success : function(){

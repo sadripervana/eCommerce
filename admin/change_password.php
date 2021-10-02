@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
 if(!is_loged_in()){
 	login_error_redirect();
@@ -18,21 +18,21 @@ $errors = [];
 ?>
 <style>
 body{
-	background-image: url(/PHPProjects/PHPeCommerce1/images/headerlogo/bg1.jpg);
+	background-image: url(BASEURL . images/headerlogo/bg1.jpg);
 	background-size: 100vh 100vh;
 	background-attachment: fixed;
 }
 </style>
 <div id="login-form">
 	<div>
-		
-		<?php 
+
+		<?php
 		if($_POST){
 				//Form validation
 			if(empty($_POST['old_password']) || empty($_POST['password']) || empty($_POST['confirm'])){
 				$errors[] = "You must fill out all fields.";
 			}
-			
+
 				//password is more than 6 characters
 			if(strlen($password) < 6){
 				$errors[] = "Password must be at least 6 characters.";
@@ -45,7 +45,7 @@ body{
 
 
 			if(!password_verify($old_password, $hashed)){
-				$errors[] = "The old password does ont match our records.";	
+				$errors[] = "The old password does ont match our records.";
 			}
 
 				//check for errors

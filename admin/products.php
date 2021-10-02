@@ -285,7 +285,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 					</td>
 					<td>
 						<?=$product['title']; ?>
-						<img src="<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
+						<?php $photos = explode(',',$product['image']); ?>
+						<img src="<?=$photos[0];?>" alt="<?=$product['title'];?>"style="float:right"  width="25px" height="25px"  />
 					</td>
 					<td><?=money($product['price']); ?></td>
 					<td><?=$category; ?></td>

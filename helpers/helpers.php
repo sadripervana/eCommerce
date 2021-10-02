@@ -99,7 +99,6 @@ function issetParameter($post, $key, $returnValue = ''){
 }
 
 function makePhoto($photoCount,$dbpath,$allowed,$errors){
- if($_FILES["photo"]["error"][0] != 4){
 	 for($i = 0; $i < $photoCount; $i++){
 		 $name = $_FILES['photo']['name'][$i];
 		 $nameArray = explode('.',$name);
@@ -130,7 +129,6 @@ function makePhoto($photoCount,$dbpath,$allowed,$errors){
 			 $errors[] = 'File extension does not match the file.';
 		 }
 	  }
-	}
 
 	$variables = [
 		'tmpLoc'=>$tmpLoc,

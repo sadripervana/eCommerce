@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans|Roboto');
+
+
 body {
 	padding-top: 50px;
+	font-family: 'Montserrat',Sans-serif;
 }
 
 #headerWrapper{
@@ -111,7 +115,7 @@ body {
 	margin-top: 50px;
 }
 
-img.details{
+fotorama__wrap{
 	width: 90%;
 	margin: 15px auto;
 }
@@ -142,4 +146,67 @@ table.table-auto {
 
 #add-users-btn {
 	margin-top: 25px;
+}
+
+.total-table-header th{
+	text-align: center;
+}
+#step1{
+	display: block;
+}
+#step2 {
+	display: none;
+}
+
+#checkout_button{
+	display: none;
+}
+
+#back_button{
+	display: none;
+}
+
+th {
+ background-color: #1CB5E0;
+ color: #fafafa;
+ font-family: 'Open Sans',Sans-serif;
+ font-weight: 200;
+ text-transform: uppercase;
+ padding: 7px 14px;
+ text-align: center;
+}
+
+tr {
+ background-color: #fafafa;
+ font-family: 'Montserrat', sans-serif;
+}
+
+tr:nth-child(even) {
+ background-color: #b7e4f7;
+}
+
+#parent_category {
+	background-color: blue ;
+}
+
+#sub_total {
+	border-top: 2px solid black;
+	font-weight: bold;
+}
+
+#cart_widget, #recent_widget td{
+	font-size: 12px;
+}
+
+input.price-range{
+	width: 55px;
+}
+
+.saved-image {
+	text-align: center;
+}
+
+.saved-image img {
+	width: auto;
+	height: 150px;
 }

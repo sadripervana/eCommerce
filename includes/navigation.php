@@ -28,6 +28,9 @@ $pquery = $db->query($sql);
 					</ul>
 				</li>
 			<?php endwhile; ?>
+		<li>
+			<a href="cart.php"><i class="fas fa-shopping-cart"></i> My Cart</a>			
+		</li>
 		</ul>
 	</div>
 </nav>

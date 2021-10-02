@@ -41,14 +41,15 @@ $presults = $db->query($sql);
 			?>
 			<tr>
 				<td>
-					<a href="archived.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default">Restore</a>
+					<a href="archived.php?delete=<?=$product['id'];?>" class="btn btn-xs btn-default"><i class="fas fa-undo-alt"></i> Restore</a>
 				</td>
 				<td>
 					<?=$product['title']; ?>
+					<img src="../<?=$product['image']; ?>" style="float:right" width="25px" height="25px" alt="">
 				</td>
 				<td><?=money($product['price']); ?></td>
 				<td><?=$category; ?></td>
-				<td>0</td>
+				<td><?=$product['sold']; ?></td>
 			</tr>
 		<?php endwhile; ?>
 	</tbody>

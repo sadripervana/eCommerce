@@ -1,11 +1,11 @@
-<?php 
+<?php
 function display_errors($errors){
 	$display = '<ul style="margin-top: 60px;" class="bg-danger">';
 	foreach($errors as $error){
 		$display .= '<li class="text-danger">'.$error.'</li>';
 	}
 	$display .= '</ul>';
-	return $display; 	
+	return $display;
 }
 
 function sanitize($dirty) {
@@ -48,7 +48,7 @@ function has_permission($permission = 'admin'){
 	if(in_array($permission, $permissions,true)){
 		return true;
 	}
-	return false; 
+	return false;
 }
 
 function pretty_date($date){
@@ -96,5 +96,48 @@ function issetParameter($post, $key, $returnValue = ''){
 	} else {
 		return $returnValue;
 	}
+}
+
+function makePhoto($photoCount,$dbpath,$allowed,$errors){
+ if($_FILES["photo"]["error"][0] != 4){
+	 for($i = 0; $i < $photoCount; $i++){
+		 $name = $_FILES['photo']['name'][$i];
+		 $nameArray = explode('.',$name);
+		 $fileName = $nameArray[0];
+		 $fileExt = $nameArray[1];
+		 $mime = explode('/', $_FILES['photo']['type'][$i]);
+		 $mimeType = $mime[0];
+		 $mimeExt = $mime[1];
+		 $tmpLoc[] = $_FILES['photo']['tmp_name'][$i];
+
+		 $fileSize = $_FILES['photo']['size'][$i];
+		 $uploadName = md5(microtime().$i) . '.' . $fileExt;
+		 $uploadPath[] = BASEURL.'images/products/' . $uploadName;
+		 if($i != 0){
+			 $dbpath .= ',';
+		 }
+		 $dbpath .= '/eCommerce/images/products/' . $uploadName;
+		 if($mimeType != 'image'){
+			 $errors[] = 'The File must be an image.';
+		 }
+		 if(!in_array($fileExt, $allowed)){
+			 $errors[] = 'The photo extension must be a png, jpg, jpeg, or gif.';
+		 }
+		 if($fileSize > 150000000){
+			 $errors[] = 'The fileSize must be under 15MB';
+		 }
+		 if($fileExt != $mimeExt && ($mimeExt == 'jpeg' && $fileExt != 'jpg')){
+			 $errors[] = 'File extension does not match the file.';
+		 }
+	  }
+	}
+
+	$variables = [
+		'tmpLoc'=>$tmpLoc,
+    'uploadPath'=>$uploadPath,
+    'dbpath'=>$dbpath ,
+	  'errors' => $errors
+	];
+ return $variables;
 }
 ?>

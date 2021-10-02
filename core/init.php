@@ -1,13 +1,16 @@
-<?php 
+<?php
 
-$db = mysqli_connect('localhost','admin','admin','supermario');
+$db = mysqli_connect('localhost','root','','eCommerce');
 if(mysqli_connect_errno()){
 	echo 'Database connection failed with following errors: ' . mysqli_connect_error();
 	die();
 }
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/config.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/helpers/helpers.php';
+
+define('BASEURL', $_SERVER['DOCUMENT_ROOT']. '/eCommerce/');
+
+require_once BASEURL . 'config.php';
+require_once BASEURL . 'helpers/helpers.php';
 
 $cart_id = '';
 if(isset($_COOKIE[CART_COOKIE])){

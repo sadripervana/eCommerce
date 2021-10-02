@@ -48,7 +48,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 
 		$product = mysqli_fetch_assoc($productResults);
 		if(isset($_GET['delete_image'])){
-			$saved_image = '';
 			$imgi = (int)$_GET['imgi'] - 1;
 			$images = explode(',', $product['image']);
 			$image_url = BASEURL . $images[$imgi];

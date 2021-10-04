@@ -1,5 +1,6 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/eCommerce/core/init.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/core/init.php';
+// require_once $_SERVER['DOCUMENT_ROOT'].'/eCommerce/core/init.php';
 if(!is_loged_in()){
 	login_error_redirect();
 }
@@ -103,13 +104,13 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		}
 
 
-	 if($saved_image == '' ){
-		 if($_FILES["photo"]["error"][0] != 4){
-		  $photoCount = count($_FILES['photo']['name']);
-			$values =	 makePhoto($photoCount,$dbpath,$allowed,$errors);
-			extract($values);
+		if($saved_image == '' ){
+			if($_FILES["photo"]["error"][0] != 4){
+				$photoCount = count($_FILES['photo']['name']);
+				$values =	 makePhoto($photoCount,$dbpath,$allowed,$errors);
+				extract($values);
+			}
 		}
-	}
 
 		if(!empty($errors)){
 			echo display_errors($errors);
@@ -285,8 +286,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 					</td>
 					<td>
 						<?=$product['title']; ?>
-						<?php $photos = explode(',',$product['image']); ?>
-						<img src="<?=$photos[0];?>" alt="<?=$product['title'];?>"style="float:right"  width="25px" height="25px"  />
+						<?php $photos = explode(',', $product['image']);?>
+						<img style="height: 20px; width: auto; float: right;" src="../<?=$photos[0];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 					</td>
 					<td><?=money($product['price']); ?></td>
 					<td><?=$category; ?></td>

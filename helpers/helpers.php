@@ -115,7 +115,7 @@ function makePhoto($photoCount,$dbpath,$allowed,$errors){
 		 if($i != 0){
 			 $dbpath .= ',';
 		 }
-		 $dbpath .= '/eCommerce/images/products/' . $uploadName;
+		 $dbpath .= 'images/products/' . $uploadName;
 		 if($mimeType != 'image'){
 			 $errors[] = 'The File must be an image.';
 		 }

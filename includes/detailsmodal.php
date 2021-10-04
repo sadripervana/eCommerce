@@ -75,7 +75,7 @@ $size_array = explode(',', $sizestring);
 										<?php 
 										;
 										?>
-										<input type="number" min="0" max="<?=$max;?>" class="form-control" id="quantity" name="quantity">
+										<input type="number" min="1" max="<?=$max;?>" class="form-control" id="quantity" name="quantity">
 									</div>
 								</div><br><br>
 							</form>

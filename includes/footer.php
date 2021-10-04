@@ -39,7 +39,7 @@
 	function detailsmodal(id){
 		var data = {"id" : id};
 		jQuery.ajax({
-			url 	: 	BASEURL . 'includes/detailsmodal.php',
+			url 	: 	'/PHPProjects/PHPeCommerce1/includes/detailsmodal.php',
 			method 	: 	"post",
 			data 	: 	data,
 			success : 	function(data){
@@ -61,7 +61,7 @@
 			success : function(){location.reload();},
 			error : function(){alert("Something went wrong.");}
 
-		})
+		});
 	}
 
 	function add_to_cart(){
@@ -81,7 +81,7 @@
 			return;
 		} else {
 			jQuery.ajax({
-				url :  BASEURL . 'admin/parsers/add_cart.php',
+				url :  '/PHPProjects/PHPeCommerce1/admin/parsers/add_cart.php',
 				method :'post',
 				data : data,
 				success : function(){
@@ -90,7 +90,7 @@
 				error : function(){
 					alert("Something went wrong");
 				}
-			})
+			});
 		}
 	}
 

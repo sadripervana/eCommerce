@@ -24,7 +24,7 @@ $featured = $db-> query($sql);
 				<p class="list-price text-danger">
 					<?php 
 					if($product['list_price'] != '0.00'){
-						echo	'List Price <s>$'.	$product['list_price'] .'</s>';
+						echo	'List Price <sub><s>$'.	$product['list_price'] .'</s></sub>';
 					}
 					?>
 				</p>

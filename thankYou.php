@@ -82,7 +82,8 @@ try {
 	?>
 
 	<h1 class="text-center text-success">Thank You!</h1>
-	<p> Your card has been successfully charged <strong><?=money($grand_total);?></strong>. You have been emailed a receipt. Please check your spam folder if it's not in your inbox. Additionally you can print this page as a receipt. </p>
+	<p> Your card has been successfully charged <strong><?=money($grand_total);?></strong>. You have been emailed a receipt. Please check your spam folder if it's not in your inbox. <br>
+	Additionally you can print this page as a receipt. </p>
 	<p>Your receipt number is: <strong><?=$cart_id;?></strong></p>
 	<p>Your order will be shipped to the address below.</p>
 	<address>

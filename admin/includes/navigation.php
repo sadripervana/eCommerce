@@ -1,15 +1,12 @@
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
-		<a href="<?=BASEURL; ?>index.php" class="navbar-brand">SuperMario Toys Admin</a>
+		<a href="../index.php" class="navbar-brand">SuperMario Toys Admin</a>
 		<ul class="nav navbar-nav">
 
 			<!-- Menu Items-->
-<<<<<<< HEAD
 			<li><a href="brands.php">Brands</a></li>
-=======
 			<li><a href="index.php">Administation</a></li>			
 			<li><a href="brands.php">Brands</a></li>			
->>>>>>> 8f9ba069f49f2f642ab7942d0576b53d5f5a19cc
 			<li><a href="categories.php">Categories</a></li>
 			<li><a href="products.php">Products</a></li>
 			<li><a href="archived.php">Archived</a></li>

@@ -3,13 +3,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$db = mysqli_connect('localhost','root','','eCommerce');
+$db = mysqli_connect('localhost','admin','admin','supermario');
+// $db = mysqli_connect('localhost','root','','eCommerce');
 if(mysqli_connect_errno()){
 	echo 'Database connection failed with following errors: ' . mysqli_connect_error();
 	die();
 }
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'].'/eCommerce/config.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/PHPProjects/PHPeCommerce1/config.php';
+// require_once $_SERVER['DOCUMENT_ROOT'].'/eCommerce/config.php';
 require_once BASEURL.'helpers/helpers.php';
 require_once BASEURL.'vendor/autoload.php';
 

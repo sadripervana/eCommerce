@@ -40,5 +40,113 @@ $txnResults = $db->query($txnQuery);
 	</table>
 </div>
 
+<div class="row">
+	<!-- Sales By Month -->
+	<?php
+	$thisYr = date('Y');
+	$lastYr = $thisYr -1;
+	$thisYrQ = $db->query("SELECT grand_total, txn_date FROM transactions WHERE YEAR(txn_date) = '{$thisYr}'");
+	$lastYrQ = $db->query("SELECT grand_total, txn_date FROM transactions WHERE YEAR(txn_date) = '{$lastYr}'");
+	$current = [];
+	$last = [];
+	$currentTotal = 0;
+	$lastTotal = 0;
+
+	while($x = mysqli_fetch_assoc($thisYrQ)){
+		$month = date('m', strtotime($x['txn_date']));
+		if(!array_key_exists($month, $current)){
+			$current[(int)$month] = $x['grand_total'];
+		} else {
+			$current[(int)$month] += $x['grand_total'];
+		} 
+		$currentTotal += $x['grand_total'];
+	}
+
+	while($y = mysqli_fetch_assoc($lastYrQ)){
+		$month = date('m', strtotime($y['txn_date']));
+		if(!array_key_exists($month, $current)){
+			$last[(int)$month] = $y['grand_total'];
+		} else {
+			$last[(int)$month] += $y['grand_total'];
+		} 
+		$lastTotal += $y['grand_total'];
+	}
+	?>
+	<div class="col-md-4">
+		<h3 class="text-center">Sales By Month</h3>
+			<table class="table table-condensed table-striped table-bordered">
+				<thead>
+					<th></th>
+					<th><?=$lastYr;?></th>
+					<th><?=$thisYr;?></th>
+				</thead>
+				<tbody>
+					<?php for($i = 1; $i <= 12; $i++): 
+						$dt = DateTime::createFromFormat('!m', $i);
+						?>
+						<tr<?=((date('m') == $i)?' class="info"' :'');?>>
+							<td><?=$dt->format('F');?></td>
+							<td><?=((array_key_exists($i, $last))?money($last[$i]):money(0));?></td>
+							<td><?=((array_key_exists($i, $current))?money($current[$i]):money(0));?></td>
+						</tr>
+					<?php endfor;?>
+					<tr style="border-top:2px solid black">
+						<td><strong>Total</strong></td>
+						<td><strong><?=money($lastTotal);?></strong></td>
+						<td><strong><?=money($currentTotal);?></strong></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+	<!-- .Sales By Month -->
+
+	<!-- Inventory -->
+	<?php 
+	$iQuery = $db->query("SELECT * FROM products WHERE deleted = 0");
+	$lowItems = [];
+	while($product = mysqli_fetch_assoc($iQuery)){
+		$item = [];
+		$sizes = sizesToArray($product['sizes']);
+		foreach ($sizes as $size) {
+			if($size['quantity'] <= $size['threshold']){
+				$cat = get_category($product['categories']);
+				$item = [
+					'title' => $product['title'],
+					'size' => $size['size'],
+					'quantity' => $size['quantity'],
+					'threshold' => $size['threshold'],
+					'category' => $cat['parent']. ' ~ ' . $cat['child']
+				];
+				$lowItems[] = $item;
+			}
+		}
+	}
+	?>
+	<div class="col-md-8">
+		<h3 class="text-center">Low Inventory</h3>
+		<table class="table table-condensed table-striped table-bordered">
+			<thead>
+				<th>Product</th>
+				<th>Category</th>
+				<th>Size</th>
+				<th>Quantity</th>
+				<th>Threshold</th>
+			</thead>
+			<tbody>
+				<?php foreach ($lowItems as $item) : ?>
+					<tr <?=(($item['quantity'] == 0)?' class="danger"':'') ;?>>
+						<td><?=$item['title'];?></td>
+						<td><?=$item['category'];?></td>
+						<td><?=$item['size'];?></td>
+						<td><?=$item['quantity'];?></td>
+						<td><?=$item['threshold'];?></td>
+					</tr>
+				<?php endforeach;?>
+			</tbody>
+		</table>
+	</div>
+	<!-- .Inventory -->
+
+</div>
 
 <?php include 'includes/footer.php'; ?>

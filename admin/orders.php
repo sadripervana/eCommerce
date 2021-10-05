@@ -93,21 +93,21 @@ while($p = mysqli_fetch_assoc($productQ)){
 					<td ><?=$txn['full_name'];?></td>
 				</tr>
 				<tr>
-					<td><label for="full_name">Street Addres:</label></td>
+					<td><label for="street">Street Addres:</label></td>
 					<td><?=$txn['street'];?></td>
 				</tr>
 				<?=(($txn['street2'] !='')?
 					'<tr>
-					<td><label for="full_name">Full Name:</label></td>
+					<td><label for="street2">Street Addres 2:</label></td>
 					<td>'.$txn['street2'].'</td>
 					</tr>'
 					:'');?>
 					<tr>
-						<td><label for="full_name">City & State & Zip Code:</label></td>
+						<td><label for="city">City & State & Zip Code:</label></td>
 						<td><?=$txn['city']. ', ' . $txn['state'].' '. $txn['zip_code'];?></td>
 					</tr>
 					<tr>
-						<td><label for="full_name">Country:</label></td>
+						<td><label for="country">Country:</label></td>
 						<td><?=$txn['country'];?></td>
 					</tr>
 				</tbody>

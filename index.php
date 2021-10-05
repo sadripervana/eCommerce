@@ -18,19 +18,26 @@ $featured = $db-> query($sql);
 		</h2>
 		<?php while($product = mysqli_fetch_assoc($featured)) : ?>
 			<div class="col-md-3"> 
+				<br>
 				<h4><?= $product['title']; ?></h4>
 				<?php $photos = explode(',',$product['image']); ?>
 				<img src="<?=$photos[0];?>" alt="<?=$product['title'];?>" class="img-thumb" />
 				<p class="list-price text-danger">
 					<?php 
 					if($product['list_price'] != '0.00'){
-						echo	'List Price <sub><s>$'.	$product['list_price'] .'</s></sub>';
+						echo	'List Price <sub><s>$'.	$product['list_price'] .'</s></sub>
+						<p class="price">
+						Our Price: $'. $product['price'].'
+						</p>';
+					} else {
+						echo '<br>
+						<p class="price">
+						Price: $'. $product['price'].'
+						</p>';
 					}
 					?>
 				</p>
-				<p class="price">
-					Our Price: $<?= $product['price']; ?>
-				</p>
+				
 				<button type="button" class="btn btn-sm btn-success" onclick="detailsmodal(<?= $product['id'];?>)">
 					Details
 				</button>

@@ -18,7 +18,7 @@ $errors = [];
 ?>
 <style>
 body{
-	background-image: url(BASEURL . images/headerlogo/bg1.jpg);
+	background-image: url(/PHPProjects/PHPeCommerce1/images/headerlogo/bg1.jpg);
 	background-size: 100vh 100vh;
 	background-attachment: fixed;
 }

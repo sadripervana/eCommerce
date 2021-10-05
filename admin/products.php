@@ -36,8 +36,8 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		extract($variablesAdd[$i-1]);
 	}
 
-	$parent = ((isset($_POST['parent']) && !empty($_POST['parent']))?sanitize($_POST['parent']):'');
-	$category = ((isset($_POST['child']) && !empty($_POST['child']))?sanitize($_POST['child']):'');
+	$parent = issetParameter($_POST,'parent');
+	$category = issetParameter($_POST,'child');
 	$sizes = rtrim($sizes, ',');
 	$saved_image = '';
 
@@ -66,10 +66,11 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			$variablesEdit[] = [ $describes[$i] => issetParameter($_POST,$describes[$i],$product[$describes[$i]]) ]	;
 			extract($variablesEdit[$i-1]);
 		}
-		$category = ((isset($_POST['child']) && $_POST['child'] != '')?sanitize($_POST['child']):$product['categories']);
+
+		$category = issetParameter($_POST,'child',$product['categories']);
 		$parentQ = $db->query("SELECT * FROM categories WHERE id = '$category'");
 		$parentResult = mysqli_fetch_assoc($parentQ);
-		$parent = ((isset($_POST['parent']) && $_POST['parent'] != '')?sanitize($_POST['parent']):$parentResult['parent']);
+		$parent = issetParameter($_POST,'parent',$parentResult['parent']);
 		$sizes = rtrim($sizes, ',');
 		$saved_image = (($product['image'] != '')?$product['image']:'');
 		$dbpath = $saved_image;
@@ -79,12 +80,14 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$sizeString = sanitize($sizes);
 		$sizeString = rtrim($sizeString, ',');
 		$sizesArray = explode(',', $sizeString);
-		$sArray = array();
-		$qArray = array();
+		$sArray = [];
+		$qArray = [];
+		$tArray = [];
 		foreach($sizesArray as $ss){
 			$s = explode(':', $ss);
 			$sArray[] = $s[0];
 			$qArray[] = $s[1];
+			$tArray[] = $s[2];
 		}
 	} else {
 		$sizesArray = [];
@@ -126,7 +129,6 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			if(isset($_GET['edit'])){
 				$insertSql = "UPDATE products SET title = '$title', price = '$price', list_price = '$list_price', brand = '$brand', categories = '$category', sizes = '$sizes', image = '$dbpath', description = '$description'  WHERE id = '$edit_id'";
 			}
-			// var_dump($insertSql);die;
 			$db->query($insertSql);
 			header('Location: products.php');
 		}
@@ -187,7 +189,7 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			foreach($images as $image):
 				?>
 				<div class="saved-image col-md-4">
-					<img src="<?=$image;?>" alt="saved-image" class="img-thumb"/>
+					<img src="../<?=$image;?>" alt="saved-image" class="img-thumb"/><br>
 					<a href="products.php?delete_image=1&edit=<?=$edit_id;?>&imgi=<?=$imgi;?>" class="text-danger">Delete image</a>
 				</div>
 				<?php
@@ -221,13 +223,17 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 			<div class="modal-body">
 				<div class="container-fluid">
 					<?php for($i = 1; $i <= 12 ;$i++): ?>
-						<div class="form-group col-md-4">
+						<div class="form-group col-md-2">
 							<label for="size<?=$i;?>">Size:</label>
 							<input type="text" name="size<?=$i;?>" id="size<?=$i;?>" value="<?=((!empty($sArray[$i-1]))?$sArray[$i-1] :'' );?>" class="form-control">
 						</div>
 						<div class="form-group col-md-2">
 							<label for="qty<?=$i;?>">Quantity:</label>
 							<input type="number" name="qty<?=$i;?>" id="qty<?=$i;?>" value="<?=((!empty($qArray[$i-1]))?$qArray[$i-1] :'' );?>" min="0" class="form-control">
+						</div>
+						<div class="form-group col-md-2">
+							<label for="threshold<?=$i;?>">Threshold:</label>
+							<input type="number" name="threshold<?=$i;?>" id="threshold<?=$i;?>" value="<?=((!empty($tArray[$i-1]))?$tArray[$i-1] :'' );?>" min="0" class="form-control">
 						</div>
 					<?php endfor; ?>
 				</div>
@@ -307,6 +313,5 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 <script>
 	jQuery('document').ready(function() {
 		get_child_options('<?=$category;?>');
-		// updateSizes();
 	});
 </script>

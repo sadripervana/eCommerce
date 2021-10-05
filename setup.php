@@ -7,8 +7,17 @@
 	<h3>Setting up...</h3>
 
 	<?php
-	require_once 'core/init.php';
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 
+	$db = mysqli_connect('localhost','admin','admin','ecommerce');
+	if(mysqli_connect_errno()){
+		echo 'Database connection failed with following errors: ' . mysqli_connect_error();
+		die();
+	}
+
+	//function to execute
 	function queryMysql($query)
 	{
 		global $db;
@@ -66,7 +75,7 @@
 
 	queryMysql(
 		"CREATE TABLE `transactions` (
-		`id` int NOT NULL PRIMARY KEY PRIMARY KEY AUTO_INCREMENT,
+		`id` int NOT NULL PRIMARY KEY AUTO_INCREMENT,
 		`charge_id` varchar(255) NOT NULL,
 		`cart_id` int NOT NULL,
 		`full_name` varchar(255) NOT NULL,

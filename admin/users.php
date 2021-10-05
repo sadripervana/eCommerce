@@ -12,11 +12,11 @@ if(isset($_GET['delete'])){
 	header('Location: users.php');
 }
 if(isset($_GET['add']) || isset($_GET['edit'])){
-	$name = ((isset($_POST['name']))?sanitize($_POST['name']):'');
-	$email = ((isset($_POST['email']))?sanitize($_POST['email']):'');
-	$password = ((isset($_POST['password']))?sanitize($_POST['password']):'');
-	$confirm = ((isset($_POST['confirm']))?sanitize($_POST['confirm']):'');
-	$permissions = ((isset($_POST['permissions']))?sanitize($_POST['permissions']):'');
+	$name = issetParameter($_POST,'name');
+	$email = issetParameter($_POST,'email');
+	$password = issetParameter($_POST,'password');
+	$confirm = issetParameter($_POST,'confirm');
+	$permissions = issetParameter($_POST,'permissions');
 	$errors = [];
 
 	if(isset($_GET['edit'])){
@@ -24,10 +24,9 @@ if(isset($_GET['add']) || isset($_GET['edit'])){
 		$userResults = $db->query("SELECT * FROM users WHERE id = '$edit_id'");
 		$users = mysqli_fetch_assoc($userResults);
 
-		$name = ((isset($_POST['name']) && $_POST['name'] != '')?sanitize($_POST['name']):$users['full_name']);
-		$email = ((isset($_POST['email']) && $_POST['email'] != '')?sanitize($_POST['email']):$users['email']);
-		$permissions = ((isset($_POST['permissions']) && $_POST['permissions'] != '')?sanitize($_POST['permissions']):$users['permissions']);
-
+		$name = issetParameter($_POST,'name',$users['full_name']);
+		$email = issetParameter($_POST,'email',$users['email']);
+		$permissions = issetParameter($_POST,'permissions',$users['permissions']);
 	}
 
 	if($_POST){

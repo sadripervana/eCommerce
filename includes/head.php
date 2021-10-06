@@ -15,5 +15,5 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 	<script src="https://js.stripe.com/v2/"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
-
+	<link rel="shortcut icon" href="#">
 	<body>
